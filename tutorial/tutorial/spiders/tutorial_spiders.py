@@ -8,6 +8,8 @@ class Arenas(CrawlSpider):
     start_urls = ['http://arenamaps.com/arenas/']
     
     rules = (
+        # Regex in rules line feeds that are at the end of the urls on the site
+        # &#xA; = html line feed
         Rule(SgmlLinkExtractor(allow=("arenas/(\D+)\.htm"), process_value=lambda s: s.replace('&#xA;', '').strip(), ), follow=True),
         Rule(SgmlLinkExtractor(allow=("arenas/(\d+)(.*)"), process_value=lambda s: s.replace('&#xA;', '').strip(), ), callback='parse_rink', follow=True),
     )
@@ -19,11 +21,11 @@ class Arenas(CrawlSpider):
         address = response.xpath('//div[@id="arena_addr"]')
         item = RinkItem()
         
-        item["title"] = address.xpath('./font//text()').extract()[0];
+        item["title"] = address.xpath('./font//text()').extract()[0]
 
-        text = address.xpath('./text()').extract();
-        item["address"] = text[0];
-        item["address2"] = text[1];
-        item["phone"] = text[2];
-        item["whole_address"] = text
+        textArray = address.xpath('./text()').extract()
+        item["address"] = textArray[2].strip()
+        item["address2"] = textArray[3].strip()
+        item["phone"] = textArray[4].strip()
+        item["whole_address"] = filter(None, textArray)
         return item;
