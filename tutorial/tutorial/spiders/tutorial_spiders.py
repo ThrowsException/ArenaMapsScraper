@@ -24,8 +24,16 @@ class Arenas(CrawlSpider):
         item["title"] = address.xpath('./font//text()').extract()[0]
 
         textArray = address.xpath('./text()').extract()
-        item["address"] = textArray[2].strip()
-        item["address2"] = textArray[3].strip()
-        item["phone"] = textArray[4].strip()
-        item["whole_address"] = filter(None, textArray)
+        if len(textArray) == 7:
+            item["address"] = textArray[2].strip()
+            item["address2"] = textArray[3].strip()
+            item["phone"] = textArray[4].strip()
+        elif len(textArray) == 8:
+            item["title2"] = textArray[2].strip()
+            item["address"] = textArray[3].strip()
+            item["address2"] = textArray[4].strip()
+            item["phone"] = textArray[5].strip()
+        else:
+            item["address"] = textArray[2].strip()
+            item["address2"] = textArray[3].strip()
         return item;
