@@ -7,10 +7,11 @@
 
 import scrapy
 
+
 class RinkItem(scrapy.Item):
-	title = scrapy.Field()
-	title2 = scrapy.Field()
-	address = scrapy.Field()
-	address2 = scrapy.Field()
-	phone = scrapy.Field()
-	whole_address = scrapy.Field()
+    title = scrapy.Field()
+    title2 = scrapy.Field()
+    address = scrapy.Field()
+    address2 = scrapy.Field()
+    phone = scrapy.Field()
+    whole_address = scrapy.Field()
